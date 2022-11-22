@@ -20,16 +20,16 @@ const collegeValidator=async (req,res,next)=>{
              return false
         }
     }
-    // else if(field=='fullName'){
-    //     if(!req.body[field].match(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z])$/)){
-    //         res.status(400).send({status:false,message:`Please provide a valid ${field}`})
-    //         return false
-    //    }
-    // }
+    else if(field=='fullName'){
+        if(!req.body[field].match(/[a-zA-Z ]+$/)){
+            res.status(400).send({status:false,message:`Please provide a valid ${field}`})
+            return false
+       }
+    }
 
         else if(field=='name'){
             const lc=req.body[field].toLowerCase()
-            if(lc!==req.body[field]){//appLe==apple
+            if(lc!==req.body[field]){
                  res.status(400).send({status:false,message:`All characters in ${field} should be in lowercase`})
                  return false
             }
@@ -70,9 +70,13 @@ const collegeValidator=async (req,res,next)=>{
     if(!awsLinkValidator("logoLink"))
     return 
 
-    const collegeData=await collegeModel.findOne({name:req.body.name,fullName:req.body.fullName})
-     if(collegeData){
-        return res.status(400).send({status:false,message:"Duplicate Entry"})
+    const collegeName=await collegeModel.findOne({name:req.body.name})
+    const collegeFullName=await collegeModel.findOne({fullName:req.body.fullName})
+     if(collegeName){
+        return res.status(400).send({status:false,message:"Duplicate Entry for name"})
+    }
+    if(collegeFullName){
+        return res.status(400).send({status:false,message:"Duplicate Entry for fullName"})
     }
     
     next()
