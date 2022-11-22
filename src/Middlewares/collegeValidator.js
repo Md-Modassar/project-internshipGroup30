@@ -14,10 +14,18 @@ const collegeValidator=async (req,res,next)=>{
              res.status(400).send({status:false,message:`Please provide string for ${field}`})
              return false
         }
-        else if(!req.body[field].match(/^[A-Za-z]+$/)){
+        else if(field=='name'){
+        if(!req.body[field].match(/^[A-Za-z]+$/)){
              res.status(400).send({status:false,message:`Please provide a valid ${field}`})
              return false
         }
+    }
+    // else if(field=='fullName'){
+    //     if(!req.body[field].match(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z])$/)){
+    //         res.status(400).send({status:false,message:`Please provide a valid ${field}`})
+    //         return false
+    //    }
+    // }
 
         else if(field=='name'){
             const lc=req.body[field].toLowerCase()
