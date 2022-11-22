@@ -22,27 +22,27 @@ const getcollegedetails=async function(req,res){
 
        if(!isValid(collegename))return res.status(400).send({status:false,msg:"please enter valide college name"})
           const els=collegename.toLowerCase()
-       if(!collegename==els)
+       if(collegename!=els)
         {
-            return res.status(400).send({status:false,satmsg:"it is not valid"})
+            return res.status(400).send({status:false,satmsg:"college name is not valid"})
         }
     
  const collegeid=await collegeModels.find({name:collegename})
 
  if(!collegeid){
-    res.status(400).send({status:false,msg:"this is not valide college name"})
+    res.status(404).send({status:false,msg:"this is not valide college name"})
  } 
  const interns=await interModels.find({collegeId:collegeid[0]._id}).select({collegeid:0})
 
  if(!interns){
-    return res.status(400).send({status:false, msg:"not found data"})
+    return res.status(404).send({status:false, msg:"not found data"})
  }
  
  let data={
     name:collegeid[0].name,
     fullname:collegeid[0].fullName,
     logolink:collegeid[0].logoLink,
-    interns:interns.length?interns:{status:false,msg:"data is not found"}
+    interns:interns
 
  }
 
