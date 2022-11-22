@@ -1,36 +1,12 @@
-const request = require('request')
-function test(fn){  
-// Request URL
-// var url = '1234';
-var url="https://functionup-stg.s3.ap-south-1.amazonaws.com/thorium/iitd.png"
- 
-request(url, (error, response, body)=>{
+let array=[[1,2],[3,4],[5,6]]
 
-    if(error) fn(false)
-  
-    if(response){
-        if(response.statusCode==200)
-        fn(true)
-        else
-        fn(false)
+let arr=[1,2]
+let buffer=""
+for(let i=0;i<array.length;i++){
+    let element=array[i]
+    //[1,2]
+    for(let j=0;j<element.length;j++){
+        buffer=buffer+element[j]+" "
     }
-     
-    
-});
 }
-
-
-test((data)=>console.log(data))
-
-// const axios=require('axios')
-
-// async function test(){
-// const options={
-//     method:"post",
-//     url:"https://functionup-stg.s3.ap-south-1.amazonaws.com/thorium/iitd.png"
-// }
-
-// const result=await axios(options)
-// console.log(result.data)
-// }
-// test()
+console.log(buffer)

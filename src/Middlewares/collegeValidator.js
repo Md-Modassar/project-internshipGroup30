@@ -1,6 +1,5 @@
-// const collegeModel=require('')
-const request=require('request')
-const collegeValidator=(req,res,next)=>{
+const collegeModel=require('../Models/collegeModel')
+const collegeValidator=async (req,res,next)=>{
     if(Object.keys(req.body).length==0){
         return res.status(404).send({status:false,message:"Request body is empty"})
     }
@@ -9,14 +8,14 @@ const collegeValidator=(req,res,next)=>{
              res.status(400).send({status:false,message:`${field} is not present`})
              return false
         }
-        else if (!typeof req.body[field]=='string'){ 
+        else if (!(typeof req.body[field]=='string')){ 
              res.status(400).send({status:false,message:`Please provide string for ${field}`})
              return false
         }
-        // else if(!req.body[field].match(/^[A-Za-z]+$/)){
-        //      res.status(400).send({status:false,message:`Please provide a valid ${field}`})
-        //      return false
-        // }
+        else if(!req.body[field].match(/^[A-Za-z]+$/)){
+             res.status(400).send({status:false,message:`Please provide a valid ${field}`})
+             return false
+        }
 
         else if(field=='name'){
             const lc=req.body[field].toLowerCase()
@@ -30,28 +29,44 @@ const collegeValidator=(req,res,next)=>{
 
     const awsLinkValidator=(url)=>{
         if(!req.body[url]){
-            res.status(400).send({status:false,message:"logoLink not present"})
+            res.status(400).send({status:false,message:"logoLink is not present"})
+            return false
+        }
+        if(!(typeof req.body[url]=='string')){
+            res.status(400).send({status:false,message:"logoLink should be string"})
             return false
         }
         
-        const stat=req.body[url].match(/(http[s]:\/\/)([a-z\-0-9\/.]+)\.([a-z.]{2,3})\/([a-z0-9\-\/._~:?#\[\]@!$&'()+,;=%]*)([a-z0-9]+\.)(jpg|jpeg|png)/i
-        )
+        
+        else{
+            const stat=req.body[url].match(/(http[s]:\/\/)([a-z\-0-9\/.]+)\.([a-z.]{2,3})\/([a-z0-9\-\/._~:?#\[\]@!$&'()+,;=%]*)([a-z0-9]+\.)(jpg|jpeg|png)/i)
         if(!stat){
-            res.status(400).send({status:false,message:"Invalid aws link"})
+            res.status(400).send({status:false,message:"Invalid logoLink"})
             return false
         }
-        return true
     }
+    return true
+    }
+
+
+    
     
     if(!isValid("name")){
         return
     }
-    if(!isValid("fullname"))
+    if(!isValid("fullName"))
     return
 
     if(!awsLinkValidator("logoLink"))
     return 
 
+    const collegeData=await collegeModel.find().select({_id:0,name:1/*,fullName:1*/})
+    const name=collegeData.map(obj=>obj.name)
+    // const fullname=collegeData.map(obj=>obj.fullName)
+
+    if(name.includes(req.body.name)){
+        return res.status(400).send({status:false,message:"Duplicate name"})
+    }
     next()
         
 }

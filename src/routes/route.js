@@ -6,4 +6,6 @@ const collegeController=require('../controllers/collegeController')
 
 router.post('/functionup/colleges',collegeValidator.collegeValidator,collegeController.createAuthor)
 
+// router.post('/functionup/colleges',collegeController.createAuthor)
+
 module.exports=router;
