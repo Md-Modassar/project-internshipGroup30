@@ -18,7 +18,7 @@ catch(error){
 
 const getcollegedetails=async function(req,res){
    try{
-     const collegename=req.query.name
+     const collegename=req.query.collegeName
 
        if(!isValid(collegename))return res.status(400).send({status:false,msg:"please enter valide college name"})
          
