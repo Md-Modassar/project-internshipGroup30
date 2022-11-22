@@ -67,8 +67,6 @@ const getcollegedetails=async function(req,res){
 module.exports.createAuthor=createAuthor
 module.exports.getcollegedetails=getcollegedetails
 
-const collegeModel=require('../Models/collegeModel')
 
 
 
-//module.exports.createAuthor=createAuthor
