@@ -32,15 +32,10 @@ const createIntern = async function (req, res) {
         //---------------------------->> Validation End <<----------------------------------->>>
 
         let collageId=isvalidCollage._id.toString()
+        Data.collegeId = collageId
+        delete Data.collegName
         let createIntern = await internModel.create(Data)
-        let Intern={
-            name:name,
-            email:email,
-            mobile:mobile,
-            collegeId :collageId,
-            isDeleted:createIntern.isDeleted
-        }
-        return res.status(201).send({ status: true, message: Intern })
+        return res.status(201).send({ status: true, message: createIntern })
     
     } catch (err) {
         return res.status(500).send({ status: false, msg: err.message })
