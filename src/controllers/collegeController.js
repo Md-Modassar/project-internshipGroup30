@@ -15,44 +15,45 @@ catch(error){
 }
 }
 
-
 const getcollegedetails=async function(req,res){
    try{
-    const collegename=req.query.collegename
+     const collegename=req.query.name
 
        if(!isValid(collegename))return res.status(400).send({status:false,msg:"please enter valide college name"})
-          const els=collegename.toLowerCase()
+         
+       const els=collegename.toLowerCase()
        if(collegename!=els)
         {
-            return res.status(400).send({status:false,satmsg:"college name is not valid"})
+            return res.status(400).send({status:false,satmsg:"it should be in lowercase "})
         }
     
- const collegeid=await collegeModels.find({name:collegename})
+ const collegeid=await collegeModels.findOne({name:collegename}) 
 
  if(!collegeid){
-    res.status(404).send({status:false,msg:"this is not valide college name"})
+    return res.status(400).send({status:false,msg:"this is not valide college name"})
  } 
- const interns=await interModels.find({collegeId:collegeid[0]._id}).select({collegeid:0})
+ const {name,fullName,logoLink,_id}=collegeid
 
- if(!interns){
-    return res.status(404).send({status:false, msg:"not found data"})
+ const interns=await interModels.find({collegeId:_id}).select({collegeid:0})
+
+ if(interns.length==0){
+    return res.status(400).send({status:false, msg:"no interns founds"})
  }
  
  let data={
-    name:collegeid[0].name,
-    fullname:collegeid[0].fullName,
-    logolink:collegeid[0].logoLink,
+    name:name,
+    fullname:fullName,
+    logolink:logoLink,
     interns:interns
 
  }
 
- return res.status(200).send({data})
- 
-   }catch(error){
-      res.status(500).send({status:false,message:error.message})
-   }
- 
+ return res.status(200).send({status:true,data:data})
 }
+catch(error){return res.status(500).send({status:false,msg:error.message})}
+  
+}
+
 
 module.exports.createCollege=createCollege
 module.exports.getcollegedetails=getcollegedetails
