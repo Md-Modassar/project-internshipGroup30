@@ -15,6 +15,7 @@ catch(error){
 }
 }
 
+
 const getcollegedetails=async function(req,res){
    try{
      const collegename=req.query.name
@@ -57,6 +58,7 @@ catch(error){return res.status(500).send({status:false,msg:error.message})}
 
 module.exports.createCollege=createCollege
 module.exports.getcollegedetails=getcollegedetails
+
 
 
 
