@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 const collegeModel=require('../Models/collegeModel')
 const collegeValidator=async (req,res,next)=>{
+=======
+// const collegeModel=require('')
+
+const collegeValidator=(req,res,next)=>{
+>>>>>>> 6fc8c86 (y)
     if(Object.keys(req.body).length==0){
         return res.status(404).send({status:false,message:"Request body is empty"})
     }
