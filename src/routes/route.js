@@ -5,7 +5,7 @@ const internController=require("../controllers/InternController")
 const collegeValidator=require('../Middlewares/collegeValidator')
 const collegeController=require('../controllers/collegeController')
 
-router.post('/functionup/colleges',collegeValidator.collegeValidator,collegeController.createAuthor)
+router.post('/functionup/colleges',collegeValidator.collegeValidator,collegeController.createCollege)
 router.get("/functionup/collegeDetails",collegeController.getcollegedetails)
 
 //-----------------------> create Intern <----------------------------->>

@@ -4,7 +4,7 @@ const {isValid}=require("../Middlewares/InternValidator")
 
 
 
-const createAuthor=async (req,res)=>{
+const createCollege=async (req,res)=>{
     try{
     const data=req.body
     const createdData=await collegeModels.create(data)
@@ -17,6 +17,7 @@ catch(error){
 
 
 const getcollegedetails=async function(req,res){
+   try{
     const collegename=req.query.collegename
 
        if(!isValid(collegename))return res.status(400).send({status:false,msg:"please enter valide college name"})
@@ -41,17 +42,19 @@ const getcollegedetails=async function(req,res){
     name:collegeid[0].name,
     fullname:collegeid[0].fullName,
     logolink:collegeid[0].logoLink,
-    interns:interns.length?interns:{msg:"data is not found"}
+    interns:interns.length?interns:{status:false,msg:"data is not found"}
 
  }
 
  return res.status(200).send({data})
  
-
+   }catch(error){
+      res.status(500).send({status:false,message:error.message})
+   }
  
 }
 
-module.exports.createAuthor=createAuthor
+module.exports.createCollege=createCollege
 module.exports.getcollegedetails=getcollegedetails
 
 

@@ -7,7 +7,7 @@ const collegeValidator=async (req,res,next)=>{
     }
     const isValid=(field)=>{
         if(!req.body[field]){
-             res.status(400).send({status:false,message:`${field} is not present`})
+              res.status(400).send({status:false,message:`${field} is not present`})
              return false
         }
         else if (!(typeof req.body[field]=='string')){ 
@@ -21,7 +21,7 @@ const collegeValidator=async (req,res,next)=>{
 
         else if(field=='name'){
             const lc=req.body[field].toLowerCase()
-            if(lc!==req.body[field]){
+            if(lc!==req.body[field]){//appLe==apple
                  res.status(400).send({status:false,message:`All characters in ${field} should be in lowercase`})
                  return false
             }
@@ -62,13 +62,11 @@ const collegeValidator=async (req,res,next)=>{
     if(!awsLinkValidator("logoLink"))
     return 
 
-    const collegeData=await collegeModel.find().select({_id:0,name:1/*,fullName:1*/})
-    const name=collegeData.map(obj=>obj.name)
-    // const fullname=collegeData.map(obj=>obj.fullName)
-
-    if(name.includes(req.body.name)){
-        return res.status(400).send({status:false,message:"Duplicate name"})
+    const collegeData=await collegeModel.findOne({name:req.body.name,fullName:req.body.fullName})
+     if(collegeData){
+        return res.status(400).send({status:false,message:"Duplicate Entry"})
     }
+    
     next()
         
 }
