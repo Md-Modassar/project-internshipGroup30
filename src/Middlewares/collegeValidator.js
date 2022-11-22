@@ -21,7 +21,7 @@ const collegeValidator=async (req,res,next)=>{
         }
     }
     else if(field=='fullName'){
-        if(!req.body[field].match(/[a-zA-Z ]+$/)){
+        if(!req.body[field].match(/^[\D]+$/)){ 
             res.status(400).send({status:false,message:`Please provide a valid ${field}`})
             return false
        }
@@ -29,6 +29,7 @@ const collegeValidator=async (req,res,next)=>{
 
         else if(field=='name'){
             const lc=req.body[field].toLowerCase()
+            console.log(req.body[field])
             if(lc!==req.body[field]){
                  res.status(400).send({status:false,message:`All characters in ${field} should be in lowercase`})
                  return false

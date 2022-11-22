@@ -1,6 +1,7 @@
 //===============================>> String VAlidation <<==================================>>>
 const isValid = function (value) {
-    return (typeof value === "string" &&  value.trim().length > 0 && value.match(/^(?![0-9]*$)[a-zA-Z0-9]+$/))
+    return (typeof value === "string" &&  value.trim().length > 0 && value.match(/^[\D]+$/)) ///^ [a-z] [a-z\s]*$/ /^[a-zA-Z][a-zA-Z\\s]+$/   \D+$
+
 };     
 //================================>> Email VAlidation <<===================================>>>
 
