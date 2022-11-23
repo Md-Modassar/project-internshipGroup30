@@ -10,26 +10,25 @@ const collegeValidator=async (req,res,next)=>{
               res.status(400).send({status:false,message:`${field} is not present`})
              return false
         }
-        else if (!(typeof req.body[field]=='string')){ 
+         if (!(typeof req.body[field]=='string')){ 
              res.status(400).send({status:false,message:`Please provide string for ${field}`})
              return false
         }
-        else if(field=='name'){
+         if(field=='name'){
         if(!req.body[field].match(/^[A-Za-z]+$/)){
              res.status(400).send({status:false,message:`Please provide a valid ${field}`})
              return false
         }
     }
-    else if(field=='fullName'){
+     if(field=='fullName'){
         if(!req.body[field].match(/^[\D]+$/)){ 
             res.status(400).send({status:false,message:`Please provide a valid ${field}`})
             return false
        }
     }
 
-        else if(field=='name'){
+         if(field=='name'){
             const lc=req.body[field].toLowerCase()
-            console.log(req.body[field])
             if(lc!==req.body[field]){
                  res.status(400).send({status:false,message:`All characters in ${field} should be in lowercase`})
                  return false
