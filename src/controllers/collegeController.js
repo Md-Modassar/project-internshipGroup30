@@ -24,20 +24,20 @@ const getcollegedetails = async function (req, res) {
 
       const els = collegename.toLowerCase()
       if (collegename != els) {
-         return res.status(400).send({ status: false, satmsg: "it should be in lowercase " })
+         return res.status(404).send({ status: false, satmsg: "it should be in lowercase " })
       }
 
       const collegedetail = await collegeModels.findOne({ name: collegename })
 
       if (!collegedetail) {
-         return res.status(400).send({ status: false, msg: "this is not valide college name" })
+         return res.status(404).send({ status: false, msg: "this is not valide college name" })
       }
       const { name, fullName, logoLink, _id } = collegedetail
 
       const interns = await interModels.find({ collegeId: _id }).select({ name: 1, email: 1, mobile: 1 })
 
       if (interns.length == 0) {
-         return res.status(400).send({ status: false, msg: "no interns founds" })
+         return res.status(404).send({ status: false, msg: "no interns founds" })
       }
 
       let data = {
